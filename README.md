@@ -17,7 +17,9 @@ that developers actually want to use it.
 
 ### Installing
 
+```
 sudo install $PWD/ssudoedit /usr/local/bin/
+```
 
 ### Usage
 
