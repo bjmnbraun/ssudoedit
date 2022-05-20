@@ -1,0 +1,14 @@
+#!/bin/bash
+set -beEu -o pipefail
+
+tmp="$(mktemp)"
+
+trap "rm $tmp; kill -- -$$" EXIT
+
+# alterned from an initial version of
+# https://unix.stackexchange.com/a/635704/168754
+sudo cat "$1" > "$tmp"
+inotifywait -m "$tmp" -e create -e moved_to -e close_write 2>/dev/null > \
+    >(sudo sh -c "while read path action file; do cp '$tmp' '$1'; done") &
+
+$EDITOR $tmp
